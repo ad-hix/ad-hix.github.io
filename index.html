@@ -46,6 +46,23 @@ function reserve(slot) {
     alert("Already Reserved!");
   }
 }
+  function updateCount() {
+  let total = document.querySelectorAll('.slot').length;
+  let reserved = document.querySelectorAll('.reserved').length;
+  document.getElementById("count").innerText =
+    "Available Slots: " + (total - reserved);
+}
+
+function reserve(slot) {
+  if (!slot.classList.contains("reserved")) {
+    slot.classList.add("reserved");
+  } else {
+    slot.classList.remove("reserved");
+  }
+  updateCount();
+}
+
+updateCount();
 </script>
 
 </body>
