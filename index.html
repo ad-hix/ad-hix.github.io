@@ -4,14 +4,6 @@
   <title>Park Ease</title>
   <style>
     body {
-      <div id="login">
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Enter Username"><br><br>
-  <input type="password" id="password" placeholder="Enter Password"><br><br>
-  <button onclick="login()">Login</button>
-</div>
-
-<div id="main" style="display:none;">
       font-family: Arial;
       text-align: center;
     }
@@ -34,18 +26,41 @@
 
 <body>
 
-<h1>🚗 Park Ease</h1>
-<p>Click a slot to reserve</p>
-<p id="count"></p>
+<!-- 🔐 LOGIN -->
+<div id="login">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Enter Username"><br><br>
+  <input type="password" id="password" placeholder="Enter Password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
 
-<div>
-  <div class="slot" onclick="reserve(this)">P1</div>
-  <div class="slot" onclick="reserve(this)">P2</div>
-  <div class="slot" onclick="reserve(this)">P3</div>
-  <div class="slot" onclick="reserve(this)">P4</div>
+<!-- 🚗 MAIN APP -->
+<div id="main" style="display:none;">
+  <h1>🚗 Park Ease</h1>
+  <p>Click a slot to reserve</p>
+  <p id="count"></p>
+
+  <div>
+    <div class="slot" onclick="reserve(this)">P1</div>
+    <div class="slot" onclick="reserve(this)">P2</div>
+    <div class="slot" onclick="reserve(this)">P3</div>
+    <div class="slot" onclick="reserve(this)">P4</div>
+  </div>
 </div>
 
 <script>
+function login() {
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if (user === "admin" && pass === "1234") {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("main").style.display = "block";
+  } else {
+    alert("Invalid username or password");
+  }
+}
+
 function updateCount() {
   let total = document.querySelectorAll('.slot').length;
   let reserved = document.querySelectorAll('.reserved').length;
@@ -61,23 +76,9 @@ function reserve(slot) {
     alert("Already Reserved!");
   }
 
-  updateCount(); // ✅ updates count when clicked
-}
-
-updateCount(); // ✅ runs once on page load
-  function login() {
-  let user = document.getElementById("username").value;
-  let pass = document.getElementById("password").value;
-
-  if (user === "admin" && pass === "1234") {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("main").style.display = "block";
-  } else {
-    alert("Invalid username or password");
-  }
+  updateCount();
 }
 </script>
 
-</div>
 </body>
 </html>
