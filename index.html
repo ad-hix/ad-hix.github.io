@@ -38,15 +38,7 @@
 </div>
 
 <script>
-function reserve(slot) {
-  if (!slot.classList.contains("reserved")) {
-    slot.classList.add("reserved");
-    alert("Slot Reserved!");
-  } else {
-    alert("Already Reserved!");
-  }
-}
-  function updateCount() {
+function updateCount() {
   let total = document.querySelectorAll('.slot').length;
   let reserved = document.querySelectorAll('.reserved').length;
   document.getElementById("count").innerText =
@@ -56,14 +48,17 @@ function reserve(slot) {
 function reserve(slot) {
   if (!slot.classList.contains("reserved")) {
     slot.classList.add("reserved");
+    alert("Slot Reserved!");
   } else {
-    slot.classList.remove("reserved");
+    alert("Already Reserved!");
   }
-  updateCount();
+
+  updateCount(); // ✅ updates count when clicked
 }
 
-updateCount();
+updateCount(); // ✅ runs once on page load
 </script>
+
 
 </body>
 </html>
