@@ -210,17 +210,22 @@ function reserve(slot) {
     let timeLeft = duration;
 
     let interval = setInterval(() => {
-      timeLeft--;
-      slot.innerText = "⏱ " + timeLeft + "s";
+  timeLeft--;
 
-      if (timeLeft <= 0) {
-        clearInterval(interval);
-        slot.classList.remove("reserved");
-        slot.innerText = "Free";
-        alert("Slot is now available again!");
-        updateCount();
-      }
-    }, 1000);
+  let hours = Math.floor(timeLeft / 3600);
+  let minutes = Math.floor((timeLeft % 3600) / 60);
+  let seconds = timeLeft % 60;
+
+  slot.innerText = `⏱ ${hours}h ${minutes}m ${seconds}s`;
+
+  if (timeLeft <= 0) {
+    clearInterval(interval);
+    slot.classList.remove("reserved");
+    slot.innerText = originalName;
+    alert(originalName + " is now available again!");
+    updateCount();
+  }
+}, 1000);
 
   } else {
     alert("Already Reserved!");
