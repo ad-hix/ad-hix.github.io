@@ -109,36 +109,38 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+
   document.getElementById("duration").addEventListener("change", function() {
-  let value = Number(this.value);
-  let price = (value / 3600) * 30; // ₹30 per hour
+    let value = Number(this.value);
+    let price = (value / 3600) * 30;
 
-  if (value < 3600) {
-    document.getElementById("price").innerText = "Demo Mode";
-  } else {
-    document.getElementById("price").innerText = "Price: ₹" + price;
+    if (value < 3600) {
+      document.getElementById("price").innerText = "Demo Mode";
+    } else {
+      document.getElementById("price").innerText = "Price: ₹" + price;
+    }
+  });
+
+  function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if (user === "admin" && pass === "1234") {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("main").style.display = "block";
+      updateCount();
+    } else {
+      alert("Invalid username or password");
+    }
   }
-});
-function login() {
-  let user = document.getElementById("username").value;
-  let pass = document.getElementById("password").value;
 
-  if (user === "admin" && pass === "1234") {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("main").style.display = "block";
-    updateCount();
-  } else {
-    alert("Invalid username or password");
+  function updateCount() {
+    let total = document.querySelectorAll('.slot').length;
+    let reserved = document.querySelectorAll('.reserved').length;
+    document.getElementById("count").innerText =
+      "Available Slots: " + (total - reserved);
   }
-}
-
-function updateCount() {
-  let total = document.querySelectorAll('.slot').length;
-  let reserved = document.querySelectorAll('.reserved').length;
-  document.getElementById("count").innerText =
-    "Available Slots: " + (total - reserved);
-}
-
 function reserve(slot) {
   let duration = Number(document.getElementById("duration").value);
 
@@ -155,18 +157,34 @@ function reserve(slot) {
 
     updateCount();
 
-    // ⏱ Timer
-    setTimeout(() => {
-      slot.classList.remove("reserved");
-      alert(slot.innerText + " is now available again!");
-      updateCount();
-    }, duration * 1000);
+    let timeLeft = duration;
+
+    let interval = setInterval(() => {
+      timeLeft--;
+      slot.innerText = "⏱ " + timeLeft + "s";
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        slot.classList.remove("reserved");
+        slot.innerText = "Free";
+        alert("Slot is now available again!");
+        updateCount();
+      }
+    }, 1000);
 
   } else {
     alert("Already Reserved!");
   }
-document.getElementById("duration").dispatchEvent(new Event("change"));
 }
+
+  // make functions work with onclick
+  window.login = login;
+  window.reserve = reserve;
+
+  // run once on load
+  document.getElementById("duration").dispatchEvent(new Event("change"));
+
+});
 </script>
 
 </body>
