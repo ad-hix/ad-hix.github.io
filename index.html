@@ -69,6 +69,7 @@
 .reserved {
   background: red;
 }
+
   </style>
 </head>
 
@@ -87,6 +88,17 @@
   <h1>🚗 Park Ease</h1>
   <p>Click a slot to reserve</p>
   <p id="count"></p>
+  <label>Select Duration:</label><br><br>
+
+<select id="duration">
+  <option value="10">10 sec (demo)</option>
+  <option value="60">1 min (demo)</option>
+  <option value="3600">1 hour - ₹30</option>
+  <option value="7200">2 hours - ₹60</option>
+</select>
+
+<p id="price"></p>
+<br>
 
   <div>
     <div class="slot" onclick="reserve(this)">P1</div>
@@ -97,6 +109,16 @@
 </div>
 
 <script>
+  document.getElementById("duration").addEventListener("change", function() {
+  let value = Number(this.value);
+  let price = (value / 3600) * 30; // ₹30 per hour
+
+  if (value < 3600) {
+    document.getElementById("price").innerText = "Demo Mode";
+  } else {
+    document.getElementById("price").innerText = "Price: ₹" + price;
+  }
+});
 function login() {
   let user = document.getElementById("username").value;
   let pass = document.getElementById("password").value;
@@ -118,14 +140,32 @@ function updateCount() {
 }
 
 function reserve(slot) {
+  let duration = Number(document.getElementById("duration").value);
+
   if (!slot.classList.contains("reserved")) {
     slot.classList.add("reserved");
-    alert("Slot Reserved!");
+
+    let price = (duration / 3600) * 30;
+
+    if (duration < 3600) {
+      alert("Reserved (Demo Mode)");
+    } else {
+      alert("Reserved for ₹" + price);
+    }
+
+    updateCount();
+
+    // ⏱ Timer
+    setTimeout(() => {
+      slot.classList.remove("reserved");
+      alert(slot.innerText + " is now available again!");
+      updateCount();
+    }, duration * 1000);
+
   } else {
     alert("Already Reserved!");
   }
 
-  updateCount();
 }
 </script>
 
