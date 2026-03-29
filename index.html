@@ -150,7 +150,7 @@ function reserve(slot) {
     if (duration < 3600) {
       alert("Reserved (Demo Mode)");
     } else {
-      alert("Reserved for ₹" + price);
+      alert("Slot " + slot.innerText + " reserved for ₹" + price);
     }
 
     updateCount();
@@ -165,7 +165,7 @@ function reserve(slot) {
   } else {
     alert("Already Reserved!");
   }
-
+document.getElementById("duration").dispatchEvent(new Event("change"));
 }
 </script>
 
